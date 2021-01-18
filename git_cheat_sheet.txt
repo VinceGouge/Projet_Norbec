@@ -1,0 +1,9 @@
+git status = l'état de votre ordi vs le serveur en ligne
+
+git add -A = ajouter TOUS les fichiers ayant des modifs dans la "zone de commit"
+
+git commit -m 'voici un commentaire' = officialiser la sauvegarde des fichiers qui se trouvent dans la "zone de commit" en ajoutant un commentaire qui décrit les modifications
+
+git push origin main = envoyer le commit dans le serveur
+
+git pull = "downloader" toutes les modifs et fichier qui sont sur le serveur et pas sur votre ordi
