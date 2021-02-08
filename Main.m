@@ -14,9 +14,10 @@ rho_Poly = 1210; %[kg/m^3]
 rho_H2O = 1034; %[kg/m^3]
 
 % Conductivité thermique
-k_MDI = 0.08648; % [W/mK]
-k_Poly = 0.1557; % [W/mK]
-k_H2O = 0.147; % [W/mK]
+k_MDI = 0.08648; % [W/m K]
+k_Poly = 0.1557; % [W/m K]
+k_H2O = 0.147; % [W/m K]
+k_acier = 36; % [W/m K]
 
 % Chaleur spécifique
 cp_MDI = 0;
