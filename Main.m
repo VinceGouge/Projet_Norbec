@@ -38,6 +38,7 @@ debit_H2O = 0; % Variable en fonction de la valve
 % Température de sortie de l'échangeur de chaleur
 T_out_MDI = 25; % [°C]
 T_out_Poly = 30; % [°C]
+T_in_H2O = -10; % [°C]
 
 % Aire de section dans l'échangeur
 d_tube_big = 0.08; % [m]
