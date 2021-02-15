@@ -62,6 +62,13 @@ v_ech_H2O = debit_H2O / (A_tube_small + A_tube_moy); % [m/s]
 
 %--------------------------------------------------------------------------
 
+D_tuyau_H2O = 1.25 * 25.4 / 1000; % [m]
+visc_H2O = 0.042; % Viscosité du Propylène Glycol [Ns/m^2]
+eps = 0.05/1000; % Rugosité absolue d'un tuyau de caoutchouc [m]
+A_tuyau_H2O = pi * D_tuyau_H2O^2 / 4; % Aire de section du tuyau [m^2]
+
+
+
 % Approximation du transfert de chaleur nécessaire pour les produits
 
 q_MDI = debit_MDI * cp_MDI * (T_in - T_out_MDI); % [W]
@@ -71,18 +78,11 @@ deltaT = [];
 Q_H20_MDI = [];
 Q_H20_Poly = [];
 
-for i=1:10
+for i=1:20
     deltaT(i) = 0.5*i;
     Q_H20_MDI(i) = q_MDI / (rho_H2O * cp_H2O * deltaT(i));
-    Q_H20_Poly(i) = q_Poly / (rho_H2O * cp_H2O * deltaT(i));
-    
+    Q_H20_Poly(i) = q_Poly / (rho_H2O * cp_H2O * deltaT(i)); 
 end
 
 
-
-% Calcul de débit de refroidissant
-
-D_tuyau_H2O = 1.25 * 25.4 / 1000; % [m]
-visc_H2O = 0.042; % Viscosité du Propylène Glycol [Ns/m^2]
-eps = 0.05/1000; % [m]
 
