@@ -32,7 +32,24 @@ h_int_poly = 8.015; % [W/m^2 K]
 
 % Viscosités dynamiques
 
+visc_MDI = 0.19; % [Ns/m^2]
+
+
 % Débit volumique
+
+%% Transfert thermique
+
+% Prandlt
+
+Pr_lam_plaque_MDI = 10;
+Pr_lam_plaque_Poly = 10;
+
+Pr_H2O = 70; % 30% à température de 0 degrés
+
+% Nucet
+
+Nucet_lam_MDI = 3.66;
+
 
 %--------------------------------------------------------------------------
 
@@ -60,17 +77,18 @@ d_tube_small_ext = 0.006; % [m]
 d_tube_small_int = 0.004; % [m]
 d_entree = 0.03; % [m]
 
+
+A_tube_moy_ext = 12 * pi * d_tube_moy_ext^2 / 4; % [m^2]
+A_tube_small_ext = 4 * pi * d_tube_small_ext^2 / 4; % [m^2]
+A_tube_big_int = (pi * d_tube_big_int^2 / 4) - A_tube_moy_ext - A_tube_small_ext; % [m^2]
+
 % Longeur de l'échangeur
 L = 2.720; % [m]
 
-A_tube_moy = 12 * pi * d_tube_moy_ext^2 / 4; % [m^2]
-A_tube_small = 4 * pi * d_tube_small_ext^2 / 4; % [m^2]
-A_tube_big = (pi * d_tube_big_int^2 / 4) - A_tube_moy - A_tube_small; % [m^2]
-
 % Vitesse dans l'échangeur
-v_ech_MDI = debit_MDI / A_tube_big; % [m/s]
-v_ech_Poly = debit_Poly / A_tube_big; % [m/s]
-v_ech_H2O = debit_H2O / (A_tube_small + A_tube_moy); % [m/s]
+v_ech_MDI = debit_MDI / A_tube_big_int; % [m/s]
+v_ech_Poly = debit_Poly / A_tube_big_int; % [m/s]
+v_ech_H2O = debit_H2O / (A_tube_small_ext + A_tube_moy_ext); % [m/s]
 
 %--------------------------------------------------------------------------
 
