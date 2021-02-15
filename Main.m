@@ -43,7 +43,6 @@ p_Poly = 160 * 100000; % [Pa]
 % Débit des fluides
 debit_MDI = 35 * 1E-5 / 6; % [m^3/s] valeur maximale de sortie
 debit_Poly = 17 * 1E-5 / 6; % [m^3/s] valeur maximale de sortie
-debit_H2O = 0; % Variable en fonction de la valve
 
 % Température de sortie de l'échangeur de chaleur
 T_in = 50; % [°C]
@@ -70,11 +69,12 @@ A_tube_big = (pi * d_tube_big_int^2 / 4) - A_tube_moy - A_tube_small; % [m^2]
 % Vitesse dans l'échangeur
 v_ech_MDI = debit_MDI / A_tube_big; % [m/s]
 v_ech_Poly = debit_Poly / A_tube_big; % [m/s]
-v_ech_H2O = debit_H2O / (A_tube_small + A_tube_moy); % [m/s]
+
 
 %--------------------------------------------------------------------------
 
 D_tuyau_H2O = 1.25 * 25.4 / 1000; % [m]
+L_tuyau_H2O = 5; % [m]
 visc_H2O = 0.042; % Viscosité du Propylène Glycol [Ns/m^2]
 eps = 0.05/1000; % Rugosité absolue d'un tuyau de caoutchouc [m]
 A_tuyau_H2O = pi * D_tuyau_H2O^2 / 4; % Aire de section du tuyau [m^2]
@@ -87,14 +87,30 @@ q_MDI = debit_MDI * cp_MDI * (T_in - T_out_MDI); % [W]
 q_Poly = debit_Poly * cp_Poly * (T_in - T_out_Poly); % [W]
 
 deltaT = [];
-Q_H20_MDI = [];
-Q_H20_Poly = [];
+Q_H2O_MDI = [];
+Q_H2O_Poly = [];
 
 for i=1:20
     deltaT(i) = 0.5*i;
-    Q_H20_MDI(i) = q_MDI / (rho_H2O * cp_H2O * deltaT(i));
-    Q_H20_Poly(i) = q_Poly / (rho_H2O * cp_H2O * deltaT(i)); 
+    Q_H2O_MDI(i) = q_MDI / (rho_H2O * cp_H2O * deltaT(i));
+    Q_H2O_Poly(i) = q_Poly / (rho_H2O * cp_H2O * deltaT(i)); 
 end
 
+v_H20_MDI = Q_H2O_MDI / A_tuyau_H2O;
+v_H20_Poly = Q_H2O_Poly / A_tuyau_H2O;
 
+Re_H2O_MDI = rho_H2O * v_H20_MDI * D_tuyau_H2O / visc_H2O;
+Re_H2O_Poly = rho_H2O * v_H20_Poly * D_tuyau_H2O / visc_H2O;
+
+f_H2O_MDI = [];
+f_H2O_Poly = [];
+head_loss_H2O_MDI = [];
+head_loss_H2O_Poly = [];
+
+for i=1:20
+    f_H2O_MDI(i) = (-1 / (1.8*log10((eps/(D_tuyau_H2O * 3.7))^1.11 + 6.9/Re_H2O_MDI(i))))^2;
+    head_loss_H2O_MDI(i) = f_H2O_MDI(i) * L_tuyau_H2O * v_H20_MDI(i)^2 / (D_tuyau_H2O * 2 * 9.81);
+    f_H2O_Poly(i) = (-1 / (1.8*log10((eps/(D_tuyau_H2O * 3.7))^1.11 + 6.9/Re_H2O_Poly(i))))^2;
+    head_loss_H2O_Poly(i) = f_H2O_Poly(i) * L_tuyau_H2O * v_H20_Poly(i)^2 / (D_tuyau_H2O * 2 * 9.81);
+end
 
