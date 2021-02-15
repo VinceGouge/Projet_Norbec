@@ -74,7 +74,7 @@ v_ech_Poly = debit_Poly / A_tube_big; % [m/s]
 %--------------------------------------------------------------------------
 
 D_tuyau_H2O = 1.25 * 25.4 / 1000; % [m]
-L_tuyau_H2O = 5; % [m]
+L_tuyau_H2O = 14; % [m]
 visc_H2O = 0.042; % Viscosité du Propylène Glycol [Ns/m^2]
 eps = 0.05/1000; % Rugosité absolue d'un tuyau de caoutchouc [m]
 A_tuyau_H2O = pi * D_tuyau_H2O^2 / 4; % Aire de section du tuyau [m^2]
@@ -83,8 +83,8 @@ A_tuyau_H2O = pi * D_tuyau_H2O^2 / 4; % Aire de section du tuyau [m^2]
 
 % Approximation du transfert de chaleur nécessaire pour les produits
 
-q_MDI = debit_MDI * cp_MDI * (T_in - T_out_MDI); % [W]
-q_Poly = debit_Poly * cp_Poly * (T_in - T_out_Poly); % [W]
+q_MDI = debit_MDI * rho_MDI * cp_MDI * (T_in - T_out_MDI); % [W]
+q_Poly = debit_Poly * rho_Poly * cp_Poly * (T_in - T_out_Poly); % [W]
 
 deltaT = [];
 Q_H2O_MDI = [];
@@ -108,9 +108,11 @@ head_loss_H2O_MDI = [];
 head_loss_H2O_Poly = [];
 
 for i=1:20
-    f_H2O_MDI(i) = (-1 / (1.8*log10((eps/(D_tuyau_H2O * 3.7))^1.11 + 6.9/Re_H2O_MDI(i))))^2;
+    %f_H2O_MDI(i) = (-1 / (1.8*log10((eps/(D_tuyau_H2O * 3.7))^1.11 + 6.9/Re_H2O_MDI(i))))^2;
+    f_H2O_MDI(i) = 64/Re_H2O_MDI(i);
     head_loss_H2O_MDI(i) = f_H2O_MDI(i) * L_tuyau_H2O * v_H20_MDI(i)^2 / (D_tuyau_H2O * 2 * 9.81);
-    f_H2O_Poly(i) = (-1 / (1.8*log10((eps/(D_tuyau_H2O * 3.7))^1.11 + 6.9/Re_H2O_Poly(i))))^2;
+    %f_H2O_Poly(i) = (-1 / (1.8*log10((eps/(D_tuyau_H2O * 3.7))^1.11 + 6.9/Re_H2O_Poly(i))))^2;
+    f_H2O_Poly(i) = 64 / Re_H2O_Poly(i);
     head_loss_H2O_Poly(i) = f_H2O_Poly(i) * L_tuyau_H2O * v_H20_Poly(i)^2 / (D_tuyau_H2O * 2 * 9.81);
 end
 
