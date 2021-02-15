@@ -1,6 +1,7 @@
 % Document des variables et calcul pour la modélisation de l'échangeur de
 % chaleur
 
+clear; clc;
 
 % Information utile
 % Action du PID : 2 à 20 mA
@@ -58,4 +59,35 @@ v_ech_MDI = debit_MDI / A_tube_big; % [m/s]
 v_ech_Poly = debit_Poly / A_tube_big; % [m/s]
 v_ech_H2O = debit_H2O / (A_tube_small + A_tube_moy); % [m/s]
 
-% Vitesse à la sortie de la pompe
+%--------------------------------------------------------------------------
+
+% Calcul de débit de refroidissant
+
+d_tuyau_H2O = 1.25 * 25.4 / 1000; % [m]
+visc_H2O = 0.042; % Viscosité du Propylène Glycol [Ns/m^2]
+eps = 0.05/1000; % [m]
+coeff_frot = 0.02; % Première itération de coefficient de frottement
+itt = 0;
+err = 1;
+
+ 
+while err > 0.00001
+   
+    numerateur = 2.51;
+    denominateur = sqrt(coeff_frot) * (10^(-1/(sqrt(coeff_frot)*2)) - eps/(d_tuyau_H2O * 3.7));
+   
+    Re = numerateur/denominateur;
+    
+    nouv_f = (-1 / (1.8*log10((eps/(d_tuyau_H2O*3.7))^1.11 + 6.9/Re)))^2;
+    
+    err = abs(coeff_frot - nouv_f);
+    
+    coeff_frot = nouv_f;
+    
+    itt = itt + 1;
+    
+    if itt > 1000
+        break
+    end
+    
+end
