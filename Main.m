@@ -58,8 +58,8 @@ p_MDI = 160 * 100000; % [Pa]
 p_Poly = 160 * 100000; % [Pa]
 
 % Débit des fluides
-debit_MDI = 35 * 1E-5 / 6; % [m^3/s] valeur maximale de sortie
-debit_Poly = 17 * 1E-5 / 6; % [m^3/s] valeur maximale de sortie
+debit_MDI = 35/(1000*60); % [m^3/s] valeur maximale de sortie
+debit_Poly = 17/(1000*60); % [m^3/s] valeur maximale de sortie
 
 % Température de sortie de l'échangeur de chaleur
 T_in = 50; % [°C]
