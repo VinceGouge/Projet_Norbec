@@ -26,7 +26,9 @@ cp_Poly = 2270; % [J/kg K]
 cp_H2O = 3915; % [J/kg K]
 
 % Coefficient de convection
-h_MDI = 4.452; % [W/m^2 K]
+h_int_MDI = 4.452; % [W/m^2 K]
+h_int_poly = 8.015; % [W/m^2 K]
+
 
 % Viscosités dynamiques
 
