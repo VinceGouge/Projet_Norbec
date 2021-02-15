@@ -134,3 +134,5 @@ for i=1:20
     head_loss_H2O_Poly(i) = f_H2O_Poly(i) * L_tuyau_H2O * v_H20_Poly(i)^2 / (D_tuyau_H2O * 2 * 9.81);
 end
 
+Mes_resultats = sim('Echangeur_Chaleur.slx');
+
