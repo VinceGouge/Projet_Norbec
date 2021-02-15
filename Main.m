@@ -24,6 +24,9 @@ cp_MDI = 0;
 cp_Poly = 0;
 cp_H2O = 3915; % [J/kg K]
 
+% Coefficient de convection
+h_MDI = 4.452; % [W/m^2 K]
+
 %--------------------------------------------------------------------------
 
 % Pression de sortie de pompe
