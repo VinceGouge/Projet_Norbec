@@ -88,8 +88,6 @@ L = 2.720; % [m]
 
 v_ech_MDI = debit_MDI / A_tube_big_int; % [m/s]
 v_ech_Poly = debit_Poly / A_tube_big_int; % [m/s]
-v_ech_MDI = debit_MDI / A_tube_big; % [m/s]
-v_ech_Poly = debit_Poly / A_tube_big; % [m/s]
 
 
 %--------------------------------------------------------------------------
