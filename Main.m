@@ -85,15 +85,13 @@ A_tube_big_int = (pi * d_tube_big_int^2 / 4) - A_tube_moy_ext - A_tube_small_ext
 L = 2.720; % [m]
 
 % Vitesse dans l'échangeur
-<<<<<<< HEAD
+
 v_ech_MDI = debit_MDI / A_tube_big_int; % [m/s]
 v_ech_Poly = debit_Poly / A_tube_big_int; % [m/s]
 v_ech_H2O = debit_H2O / (A_tube_small_ext + A_tube_moy_ext); % [m/s]
-=======
 v_ech_MDI = debit_MDI / A_tube_big; % [m/s]
 v_ech_Poly = debit_Poly / A_tube_big; % [m/s]
 
->>>>>>> 25f4a07784e99e0fe3d7d65c6a98a839ecce71cc
 
 %--------------------------------------------------------------------------
 
