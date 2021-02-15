@@ -21,8 +21,8 @@ k_H2O = 0.147; % [W/m K]
 k_acier = 36; % [W/m K]
 
 % Chaleur spécifique
-cp_MDI = 0;
-cp_Poly = 0;
+cp_MDI = 1800; % [J/kg K]
+cp_Poly = 2270; % [J/kg K]
 cp_H2O = 3915; % [J/kg K]
 
 % Coefficient de convection
@@ -44,6 +44,7 @@ debit_Poly = 17 * 1E-5 / 6; % [m^3/s] valeur maximale de sortie
 debit_H2O = 0; % Variable en fonction de la valve
 
 % Température de sortie de l'échangeur de chaleur
+T_in = 50; % [°C]
 T_out_MDI = 25; % [°C]
 T_out_Poly = 30; % [°C]
 T_in_H2O = -10; % [°C]
@@ -71,33 +72,27 @@ v_ech_H2O = debit_H2O / (A_tube_small + A_tube_moy); % [m/s]
 
 %--------------------------------------------------------------------------
 
-% Calcul de débit de refroidissant
+% Approximation du transfert de chaleur nécessaire pour les produits
 
-d_tuyau_H2O = 1.25 * 25.4 / 1000; % [m]
-visc_H2O = 0.042; % Viscosité du Propylène Glycol [Ns/m^2]
-eps = 0.05/1000; % [m]
-coeff_frot = 0.02; % Première itération de coefficient de frottement
-itt = 0;
-err = 1;
+q_MDI = debit_MDI * cp_MDI * (T_in - T_out_MDI); % [W]
+q_Poly = debit_Poly * cp_Poly * (T_in - T_out_Poly); % [W]
 
- 
-while err > 0.00001
-   
-    numerateur = 2.51;
-    denominateur = sqrt(coeff_frot) * (10^(-1/(sqrt(coeff_frot)*2)) - eps/(d_tuyau_H2O * 3.7));
-   
-    Re = numerateur/denominateur;
-    
-    nouv_f = (-1 / (1.8*log10((eps/(d_tuyau_H2O*3.7))^1.11 + 6.9/Re)))^2;
-    
-    err = abs(coeff_frot - nouv_f);
-    
-    coeff_frot = nouv_f;
-    
-    itt = itt + 1;
-    
-    if itt > 1000
-        break
-    end
+deltaT = [];
+Q_H20_MDI = [];
+Q_H20_Poly = [];
+
+for i=1:10
+    deltaT(i) = 0.5*i;
+    Q_H20_MDI(i) = q_MDI / (rho_H2O * cp_H2O * deltaT(i));
+    Q_H20_Poly(i) = q_Poly / (rho_H2O * cp_H2O * deltaT(i));
     
 end
+
+
+
+% Calcul de débit de refroidissant
+
+D_tuyau_H2O = 1.25 * 25.4 / 1000; % [m]
+visc_H2O = 0.042; % Viscosité du Propylène Glycol [Ns/m^2]
+eps = 0.05/1000; % [m]
+
