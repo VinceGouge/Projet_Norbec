@@ -28,6 +28,10 @@ cp_H2O = 3915; % [J/kg K]
 % Coefficient de convection
 h_MDI = 4.452; % [W/m^2 K]
 
+% Viscosités dynamiques
+
+% Débit volumique
+
 %--------------------------------------------------------------------------
 
 % Pression de sortie de pompe
@@ -45,14 +49,20 @@ T_out_Poly = 30; % [°C]
 T_in_H2O = -10; % [°C]
 
 % Aire de section dans l'échangeur
-d_tube_big = 0.08; % [m]
-d_tube_moy = 0.01; % [m]
-d_tube_small = 0.006; % [m]
+d_tube_big_ext = 0.106; % [m]
+d_tube_big_int = 0.08; % [m]
+d_tube_moy_ext = 0.01; % [m]
+d_tube_moy_int = 0.007; % [m]
+d_tube_small_ext = 0.006; % [m]
+d_tube_small_int = 0.004; % [m]
 d_entree = 0.03; % [m]
 
-A_tube_moy = 12 * pi * d_tube_moy^2 / 4; % [m^2]
-A_tube_small = 4 * pi * d_tube_small^2 / 4; % [m^2]
-A_tube_big = (pi * d_tube_big^2 / 4) - A_tube_moy - A_tube_small; % [m^2]
+% Longeur de l'échangeur
+L = 2.720; % [m]
+
+A_tube_moy = 12 * pi * d_tube_moy_ext^2 / 4; % [m^2]
+A_tube_small = 4 * pi * d_tube_small_ext^2 / 4; % [m^2]
+A_tube_big = (pi * d_tube_big_int^2 / 4) - A_tube_moy - A_tube_small; % [m^2]
 
 % Vitesse dans l'échangeur
 v_ech_MDI = debit_MDI / A_tube_big; % [m/s]
