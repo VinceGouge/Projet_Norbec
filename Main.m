@@ -37,7 +37,7 @@ visc_MDI = 0.19; % [Ns/m^2]
 
 % Débit volumique
 
-%% Transfert thermique
+% Transfert thermique
 
 % Prandlt
 
@@ -88,7 +88,6 @@ L = 2.720; % [m]
 
 v_ech_MDI = debit_MDI / A_tube_big_int; % [m/s]
 v_ech_Poly = debit_Poly / A_tube_big_int; % [m/s]
-v_ech_H2O = debit_H2O / (A_tube_small_ext + A_tube_moy_ext); % [m/s]
 v_ech_MDI = debit_MDI / A_tube_big; % [m/s]
 v_ech_Poly = debit_Poly / A_tube_big; % [m/s]
 
