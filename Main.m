@@ -136,3 +136,10 @@ end
 
 Mes_resultats = sim('Echangeur_Chaleur.slx');
 
+T_c_o = 15; % degrés en sortie de échangeur eau glycol
+eps = 1E-15;
+err = 0;
+while err > eps
+    delta_T_1 = T_in - T_c_o;
+    delta_T_2 = T_out_MDI - T_in_H2O;
+end
