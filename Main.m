@@ -92,7 +92,8 @@ q_Poly = debit_Poly * rho_Poly * cp_Poly * (T_in - T_out_Poly); % [W]
 
 
 %--------------------------------------------------------------------------
-% Méthode du delta T logarithmique (cas maximal théorique)
+% Méthode du delta T logarithmique (cas maximal théorique avec MDI)
 deltaT1 = 25;
 deltaT2 = 0.01;
 deltaTM = (deltaT1-deltaT2) / (log(deltaT1/deltaT2));
+
