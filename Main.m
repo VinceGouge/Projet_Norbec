@@ -134,12 +134,3 @@ for i=1:20
     head_loss_H2O_Poly(i) = f_H2O_Poly(i) * L_tuyau_H2O * v_H20_Poly(i)^2 / (D_tuyau_H2O * 2 * 9.81);
 end
 
-Mes_resultats = sim('Echangeur_Chaleur.slx');
-
-T_c_o = 15; % degrés en sortie de échangeur eau glycol
-eps = 1E-15;
-err = 0;
-while err > eps
-    delta_T_1 = T_in - T_c_o;
-    delta_T_2 = T_out_MDI - T_in_H2O;
-end
