@@ -59,11 +59,12 @@ eps = 0.05/1000; % Rugosité absolue d'un tuyau de caoutchouc [m]
 A_tuyau_H2O = pi * D_tuyau_H2O^2 / 4; % Aire de section du tuyau [m^2]
 
 % Température de sortie de l'échangeur de chaleur
-T_in = 35; % [°C]
+T_in = 50; % [°C]
 T_out_MDI = 25; % [°C]
 T_out_Poly = 30; % [°C]
 T_in_H2O = -10; % [°C]
-T_out_H2O = -9; % [°C]
+T_out_H2O_MDI = -9; % [°C]
+T_out_H2O_Poly = -9; % [°C]
 
 % Aire de section dans l'échangeur
 d_tube_big_ext = 0.106; % [m]
@@ -94,19 +95,19 @@ q_Poly = debit_Poly * rho_Poly * cp_Poly * (T_in - T_out_Poly); % [W]
 
 %--------------------------------------------------------------------------
 % Méthode du delta T logarithmique (cas maximal théorique avec MDI)
-deltaT1 = T_in - T_out_H2O;
+deltaT1 = T_in - T_out_H2O_MDI;
 deltaT2 = T_out_MDI - T_in_H2O;
 deltaTLM = (deltaT1-deltaT2) / (log(deltaT1/deltaT2));
-UA = 334; % Valeur approximative pour test
+UA = 715; % Valeur minimal pour être fonctionnel avec T_in = 50°C
 q_H2O_MDI = UA*deltaTLM;
 
 err = 10;
 itt = 0;
 while err > 1
    
-   T_out_H2O = T_out_H2O + 0.001;
+   T_out_H2O_MDI = T_out_H2O_MDI + 0.001;
    
-   deltaT1 = T_in - T_out_H2O;
+   deltaT1 = T_in - T_out_H2O_MDI;
    deltaTLM = (deltaT1-deltaT2) / (log(deltaT1/deltaT2));
    
    q_H2O_MDI = UA*deltaTLM;
@@ -119,4 +120,34 @@ while err > 1
    end
 end
 
-Q_H2O_MDI = q_H2O_MDI / (rho_H2O * cp_H2O * (T_out_H2O - T_in_H2O));
+Q_H2O_MDI = q_H2O_MDI / (rho_H2O * cp_H2O * (T_out_H2O_MDI - T_in_H2O));
+
+
+%--------------------------------------------------------------------------
+% Méthode du delta T logarithmique (cas maximal théorique avec Polyol)
+deltaT1 = T_in - T_out_H2O_Poly;
+deltaT2 = T_out_Poly - T_in_H2O;
+deltaTLM = (deltaT1-deltaT2) / (log(deltaT1/deltaT2));
+UA = 320; % Valeur minimal pour être fonctionnel avec T_in = 50°C
+q_H2O_Poly = UA*deltaTLM;
+
+err = 10;
+itt = 0;
+while err > 1
+   
+   T_out_H2O_Poly = T_out_H2O_Poly + 0.001;
+   
+   deltaT1 = T_in - T_out_H2O_Poly;
+   deltaTLM = (deltaT1-deltaT2) / (log(deltaT1/deltaT2));
+   
+   q_H2O_Poly = UA*deltaTLM;
+   
+   err = abs(q_Poly - q_H2O_Poly);
+   
+   itt = itt + 1;
+   if itt > 100000
+      break
+   end
+end
+
+Q_H2O_Poly = q_H2O_Poly / (rho_H2O * cp_H2O * (T_out_H2O_Poly - T_in_H2O));
