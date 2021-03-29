@@ -49,7 +49,7 @@ Nucet_lam_MDI = 3.66;
 p_produit = 160 * 100000; % [Pa]
 
 % Débit des fluides
-debit_MDI = 35/(1000*60); % [m^3/s] valeur maximale de sortie
+debit_MDI = 10/(1000*60); % [m^3/s] valeur maximale de sortie
 debit_Poly = 17/(1000*60); % [m^3/s] valeur maximale de sortie
 
 % Caractéristique conduit d'eau glycol
@@ -59,7 +59,7 @@ eps = 0.05/1000; % Rugosité absolue d'un tuyau de caoutchouc [m]
 A_tuyau_H2O = pi * D_tuyau_H2O^2 / 4; % Aire de section du tuyau [m^2]
 
 % Température de sortie de l'échangeur de chaleur
-T_in = 50; % [°C]
+T_in = 35; % [°C]
 T_out_MDI = 25; % [°C]
 T_out_Poly = 30; % [°C]
 T_in_H2O = -10; % [°C]
@@ -78,7 +78,7 @@ A_tube_small_ext = 4 * pi * d_tube_small_ext^2 / 4; % [m^2]
 A_tube_big_int = (pi * d_tube_big_int^2 / 4) - A_tube_moy_ext - A_tube_small_ext; % [m^2]
 
 % Longeur de l'échangeur
-L_echangeur = 2.720; % [m]
+L = 2.720; % [m]
 
 % Vitesse dans l'échangeur
 v_ech_MDI = debit_MDI / A_tube_big_int; % [m/s]
