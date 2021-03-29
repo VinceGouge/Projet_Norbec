@@ -83,4 +83,33 @@ UA=1/R_tot;
 %isolé. On ne calcule donc pas la convection du MDI sur la parois intérieur
 %du gros tuyaux, ni la conduction dans le gros tuyau.
 
+%% Optimisation
+
+% longeur fixée à 4.5m
+% débit fixé à 35 lpm
+
+valeurs=zeros(1);
+D_tubes=zeros(1);
+i=0;
+
+for Opt_Dp_i=0.03:0.001:0.045
+        i=i+1;
+        Opt_Dp_e=(Opt_Dp_i+0.003);
+        Opt_Ap_i=pi*Opt_Dp_i*L;
+        Opt_Ap_e=pi*Opt_Dp_e*L;
+        Opt_h_p_i=Nu_p_i*k_H2O/Opt_Dp_i;
+        Opt_h_p_e=Nu_p_e*k_MDI/Opt_Dp_e;
+        Opt_R_cond=(log(Opt_Dp_e/Opt_Dp_i))/(2*pi*L*k_acier);
+        Opt_R_conv_i=1/(h_p_i)*Opt_Ap_i;
+        Opt_R_conv_e=1/(Opt_h_p_e)*(Opt_Ap_e);
+        Opt_R_tot=N*(1/Opt_R_cond + 1/Opt_R_conv_e + 1/Opt_R_conv_i)^(-1);
+        Opt_UA=1/Opt_R_tot;
+        valeurs(i,1)=Opt_UA;
+        D_tubes(i,1)=Opt_Dp_i;
+end
+
+figure(1)
+plot(D_tubes,valeurs)
+grid on
+
 
