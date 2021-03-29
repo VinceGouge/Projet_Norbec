@@ -2,11 +2,11 @@
 clear
 clc
 %Dimensions
-Dp_i= 0.01; %m
-Dp_e= 0.013; %m (épaisseur de 1.5mm)
+Dp_i= 0.045; %m
+Dp_e= 0.048; %m (épaisseur de 1.5mm)
 N=20; %(nombres de tuyaux intérieurs)
-Dg_i=0.30; %m
-L=3; %m
+Dg_i=0.5; %m
+L=4.5; %m
 
 Ap_i=pi*Dp_i*L; %m^2
 Ap_e=pi*Dp_e*L; %m^2
@@ -64,6 +64,7 @@ R_cond=(log(Dp_e/Dp_i))/(2*pi*L*k_acier);
 Aeq=((pi*Dg_i^2)/4)-N*((pi*Dp_e^2)/4);
 Deq=(Aeq*4/pi)^(1/2);
 Re_p_e=(4*rho_MDI*debit_MDI)/(pi*N*Deq*visc_MDI);
+V=debit_MDI/Aeq;
 
 if Re_p_e < 2300
      Nu_p_e=4.36;
@@ -75,7 +76,7 @@ R_conv_e=1/(h_p_e)*(Ap_e);
     
 %Résistance totale des petits tuyaux
 %(20 tuyaux enb parallèle)
-R_tot=20*(1/R_cond + 1/R_conv_e + 1/R_conv_i)^(-1);
+R_tot=N*(1/R_cond + 1/R_conv_e + 1/R_conv_i)^(-1);
 UA=1/R_tot;
 
 %La convection externe est négligée, ce qui sous-entend que l'échangeur est
