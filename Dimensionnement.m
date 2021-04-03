@@ -5,7 +5,7 @@ clc
 Dp_i= 0.045; %m
 Dp_e= 0.048; %m (épaisseur de 1.5mm)
 N=20; %(nombres de tuyaux intérieurs)
-Dg_i=0.3; %m
+Dg_i=0.5; %m
 L=4.5; %m
 
 Ap_i=pi*Dp_i*L; %m^2
@@ -104,7 +104,7 @@ for Opt_Dp_i=0.03:0.001:0.045
         Opt_h_p_i=Nu_p_i*k_H2O/Opt_Dp_i;
         Opt_h_p_e=Nu_p_e*k_MDI/Opt_Dp_e;
         Opt_R_cond=(log(Opt_Dp_e/Opt_Dp_i))/(2*pi*L*k_acier);
-        Opt_R_conv_i=1/(h_p_i)*Opt_Ap_i;
+        Opt_R_conv_i=1/(Opt_h_p_i)*Opt_Ap_i;
         Opt_R_conv_e=1/(Opt_h_p_e)*(Opt_Ap_e);
         Opt_R_tot=Opt_N*(1/Opt_R_cond + 1/Opt_R_conv_e + 1/Opt_R_conv_i)^(-1);
         Opt_UA=1/Opt_R_tot;
@@ -120,7 +120,33 @@ figure(1)
 surf(Nbre_tube,D_tubes,valeurs)
 title("Coefficient UA de l'échangeur à calandre en fonction du nombre de tube interne (N) et du diamètre des tubes");
 xlabel("N");
-ylabel("Diamètre")
-zlabel("Coefficient global d'échange (UA)")
+ylabel("Diamètre");
+zlabel("Coefficient global d'échange (UA)");
 note=sprintf("Longueur de l'échangeur fixée à 4.5m\nDiamètre de coque fixé à 0,45m");
-annotation('textbox', [0.7, 0.6, 0.1, 0.1], 'String', note)
+annotation('textbox', [0.7, 0.6, 0.1, 0.1], 'String', note);
+
+%% Dimensions Coque
+
+% Selon le développement de la solution pour un réservoir sous pression
+% avec la contrainte de Von Mises, l'épaisseur admissible pour un facteur
+% de sécurité FS de 2 pour différents diamètre de coque peut être calculée
+
+FS=2;
+pression=16*10^6; %Pascal
+S_y=390*10^6; %Pascal
+Diametre_coque=(0.1:0.01:1);
+epaisseur=zeros(1);
+m=0;
+for diametre_total=0.1:0.01:1
+    m=m+1;
+    t=(FS*0.5*((3)^(1/2))*pression*diametre_total)/S_y;
+    epaisseur(m)=t;
+end
+
+figure(2)
+plot(Diametre_coque,epaisseur, 'LineWidth', 2)
+grid on
+title("Épaisseur de la paroie de l'échangeur à calandre en fonction du diamètre de coque pour une pression de fonctionnement de 160 bars")
+xlabel("Diamètre de coque")
+ylabel("Épaisseur de paroie")
+    
