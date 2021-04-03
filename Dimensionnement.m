@@ -5,7 +5,7 @@ clc
 Dp_i= 0.045; %m
 Dp_e= 0.048; %m (épaisseur de 1.5mm)
 N=20; %(nombres de tuyaux intérieurs)
-Dg_i=0.5; %m
+Dg_i=0.3; %m
 L=4.5; %m
 
 Ap_i=pi*Dp_i*L; %m^2
@@ -75,7 +75,7 @@ h_p_e=Nu_p_e*k_MDI/Dp_e;
 R_conv_e=1/(h_p_e)*(Ap_e);
     
 %Résistance totale des petits tuyaux
-%(20 tuyaux enb parallèle)
+%(20 tuyaux en parallèle)
 R_tot=N*(1/R_cond + 1/R_conv_e + 1/R_conv_i)^(-1);
 UA=1/R_tot;
 
@@ -88,12 +88,16 @@ UA=1/R_tot;
 % longeur fixée à 4.5m
 % débit fixé à 35 lpm
 
-valeurs=zeros(1);
 D_tubes=zeros(1);
 i=0;
+j=0;
+valeurs=zeros(i,j);
+Nbre_tube=(10:1:30);
 
 for Opt_Dp_i=0.03:0.001:0.045
-        i=i+1;
+    i=i+1;
+    for Opt_N=10:30
+        j=j+1;
         Opt_Dp_e=(Opt_Dp_i+0.003);
         Opt_Ap_i=pi*Opt_Dp_i*L;
         Opt_Ap_e=pi*Opt_Dp_e*L;
@@ -102,14 +106,21 @@ for Opt_Dp_i=0.03:0.001:0.045
         Opt_R_cond=(log(Opt_Dp_e/Opt_Dp_i))/(2*pi*L*k_acier);
         Opt_R_conv_i=1/(h_p_i)*Opt_Ap_i;
         Opt_R_conv_e=1/(Opt_h_p_e)*(Opt_Ap_e);
-        Opt_R_tot=N*(1/Opt_R_cond + 1/Opt_R_conv_e + 1/Opt_R_conv_i)^(-1);
+        Opt_R_tot=Opt_N*(1/Opt_R_cond + 1/Opt_R_conv_e + 1/Opt_R_conv_i)^(-1);
         Opt_UA=1/Opt_R_tot;
-        valeurs(i,1)=Opt_UA;
-        D_tubes(i,1)=Opt_Dp_i;
+        valeurs(i,j)=Opt_UA;
+        if j==21
+            j=0;
+        end
+    end
+    D_tubes(i,1)=Opt_Dp_i;
 end
 
 figure(1)
-plot(D_tubes,valeurs)
-grid on
-
-
+surf(Nbre_tube,D_tubes,valeurs)
+title("Coefficient UA de l'échangeur à calandre en fonction du nombre de tube interne (N) et du diamètre des tubes");
+xlabel("N");
+ylabel("Diamètre")
+zlabel("Coefficient global d'échange (UA)")
+note=sprintf("Longueur de l'échangeur fixée à 4.5m\nDiamètre de coque fixé à 0,45m");
+annotation('textbox', [0.7, 0.6, 0.1, 0.1], 'String', note)
