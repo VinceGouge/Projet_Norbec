@@ -139,7 +139,7 @@ epaisseur=zeros(1);
 m=0;
 for diametre_total=0.1:0.01:1
     m=m+1;
-    t=(FS*0.5*((3)^(1/2))*pression*diametre_total)/S_y;
+    t=(FS*0.5*((3)^(1/2))*pression*(diametre_total/2))/S_y;
     epaisseur(m)=t;
 end
 
