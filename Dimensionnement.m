@@ -5,7 +5,7 @@ clc
 Dp_i= 0.045; %m
 Dp_e= 0.048; %m (épaisseur de 1.5mm)
 N=20; %(nombres de tuyaux intérieurs)
-Dg_i=0.5; %m
+Dg_i=0.45; %m
 L=4.5; %m
 
 Ap_i=pi*Dp_i*L; %m^2
